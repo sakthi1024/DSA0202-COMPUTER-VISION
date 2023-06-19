@@ -1,0 +1,15 @@
+import cv2
+cap = cv2.VideoCapture("C:/Users/sakth/Dropbox/Hyundia-Elite-i20-Modified-6.jpeg")
+fps = cap.get(cv2.CAP_PROP_FPS)
+slow_factor = 2
+
+while(cap.isOpened())
+    ret, frame = cap.read()
+    if ret == True:
+        cv2.imshow('Frame',frame)
+        if cv2.waitKey(int(1000/(slow_factor*fps))) & 0xFF == ord('q'):
+            break
+    else:
+        break
+cap.release()
+cv2.destroyAllWindows()
