@@ -1,0 +1,14 @@
+import cv2
+import numpy as np
+image = cv2.imread("C:/Users/sakth/Dropbox/Hyundia-Elite-i20-Modified-6.jpeg", cv2.IMREAD_GRAYSCALE)
+image_blurred = cv2.GaussianBlur(image, (3, 3), 0)
+ operatorgradient_x = cv2.Sobel(image_blurred, cv2.CV_64F, 1, 0, ksize=3)
+gradient_y = cv2.Sobel(image_blurred, cv2.CV_64F, 0, 1, ksize=3)
+gradient_magnitude = np.sqrt(gradient_x**2 + gradient_y**2)
+gradient_magnitude = np.uint8(gradient_magnitude)
+threshold_value = 50  # Adjust this threshold to your liking
+_, thresholded_image = cv2.threshold(gradient_magnitude, threshold_value, 255, cv2.THRESH_BINARY)
+cv2.imshow('Original Image', image)
+cv2.imshow('Edge Map', thresholded_image)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
