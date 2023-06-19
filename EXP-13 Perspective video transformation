@@ -1,0 +1,18 @@
+import cv2
+import numpy as np
+cap = cv2.VideoCapture("C:/Users/sakth/Dropbox/Hyundia-Elite-i20-Modified-6.jpeg")
+src = np.float32([[207, 236], [560, 236], [0, 720], [960, 720]])
+dst = np.float32([[0, 0], [960, 0], [0, 720], [960, 720]])
+while True:
+    ret, frame = cap.read()
+    
+    if ret:
+        M = cv2.getPerspectiveTransform(src, dst)
+        warped = cv2.warpPerspective(frame, M, (960, 720))
+        cv2.imshow("Perspective Transformed Frame", warped)
+        if cv2.waitKey(25) & 0xFF == ord('q'):
+            break
+    else:
+        break
+cap.release()
+cv2.destroyAllWindows()
