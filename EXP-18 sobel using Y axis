@@ -1,0 +1,9 @@
+import cv2
+import numpy as np
+img = ("C:/Users/sakth/Dropbox/Hyundia-Elite-i20-Modified-6.jpeg", 0)
+sobely = cv2.Sobel(img, cv2.CV_64F, 0, 1, ksize=3)
+sobely = np.abs(sobely)
+cv2.imshow('Original Image', img)
+cv2.imshow('Sobel Edge Detection (Y-axis)', sobely)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
