@@ -1,0 +1,52 @@
+import cv2
+
+def slow_motion(video_path, output_path, slow_factor):
+    video = cv2.VideoCapture(video_path)
+    fps = video.get(cv2.CAP_PROP_FPS)
+    frame_width = int(video.get(cv2.CAP_PROP_FRAME_WIDTH))
+    frame_height = int(video.get(cv2.CAP_PROP_FRAME_HEIGHT))
+    fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+    output = cv2.VideoWriter(output_path, fourcc, fps / slow_factor, (frame_width, frame_height))
+
+    while True:
+        ret, frame = video.read()
+        if not ret:
+            break
+        cv2.imshow('Slow Motion', frame)
+        for _ in range(slow_factor):
+            output.write(frame)
+
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
+    video.release()
+    output.release()
+    cv2.destroyAllWindows()
+
+def fast_motion(video_path, output_path, fast_factor):
+    video = cv2.VideoCapture(video_path)
+    fps = video.get(cv2.CAP_PROP_FPS)
+    frame_width = int(video.get(cv2.CAP_PROP_FRAME_WIDTH))
+    frame_height = int(video.get(cv2.CAP_PROP_FRAME_HEIGHT))
+    fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+    output = cv2.VideoWriter(output_path, fourcc, fps * fast_factor, (frame_width, frame_height))
+
+    while True:
+        ret, frame = video.read()
+        if not ret:
+            break
+        cv2.imshow('Fast Motion', frame)
+        output.write(frame)
+
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
+    video.release()
+    output.release()
+    cv2.destroyAllWindows()
+video_path = 'path_to_video_file'  # Replace with the path to your video file
+slow_output_path = 'slow_motion_output.mp4'
+fast_output_path = 'fast_motion_output.mp4'
+slow_factor = 2  # Adjust the factor to change the slow motion speed (2 means half speed)
+fast_factor = 2  # Adjust the factor to change the fast motion speed (2 means double speed)
+
+slow_motion(video_path, slow_output_path, slow_factor)
+fast_motion(video_path, fast_output_path, fast_factor)
