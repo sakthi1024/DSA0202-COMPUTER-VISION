@@ -1,0 +1,17 @@
+import cv2
+img = cv2.imread("C:/Users/sakth/Dropbox/Hyundia-Elite-i20-Modified-6.jpeg")
+model = cv2.dnn.readNetFromTensorflow('frozen_inference_graph.pb', 'ssd_mobilenet_v2_coco_2018_03_29.pbtxt')
+input_blob = cv2.dnn.blobFromImage(img, size=(300, 300), swapRB=True, crop=False)
+model.setInput(input_blob)
+output = model.forward()
+for detection in output[0,0,:,:]:
+    confidence = detection[2]
+    if confidence > 0.5:
+        left = int(detection[3] * img.shape[1])
+        top = int(detection[4] * img.shape[0])
+        right = int(detection[5] * img.shape[1])
+        bottom = int(detection[6] * img.shape[0])
+        cv2.rectangle(img, (left, top), (right, bottom), (0, 255, 0), 3)
+cv2.imshow('Image', img)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
